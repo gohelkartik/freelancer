@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Wallet | WorkWave</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #064e3b;
+            --accent-green: #10b981;
+            --text-white: #ffffff;
+            --text-gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --bg-light: #f9fafb;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: #1f2937;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span { color: var(--accent-green); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-green);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-green);
+        }
+
+        .auth-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .join-btn {
+            border: 2px solid var(--accent-green);
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: var(--accent-green) !important;
+            font-weight: 600 !important;
+            text-decoration: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .balance-card {
+            background: var(--primary-dark);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(6, 78, 59, 0.15);
+        }
+
+        .balance-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .amount {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .wallet-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-deposit { background: var(--accent-green); color: white; }
+        .btn-withdraw { background: rgba(255,255,255,0.1); color: white; }
+        .action-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        .escrow-info {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            border: 1px solid #eee;
+        }
+
+        .milestone-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #eee;
+        }
+
+        .milestone-card {
+            border: 1px solid #f3f4f6;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-escrow { background: #fffbeb; color: #92400e; }
+        .status-released { background: #ecfdf5; color: #065f46; }
+
+        .progress-bar {
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-green);
+            transition: width 1s ease;
+        }
+
+        .release-btn {
+            background: #1f2937;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .release-btn:disabled { background: #d1d5db; cursor: not-allowed; }
+
+        @media (max-width: 992px) {
+            .wallet-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                gap: 20px;
+            }
+            .nav-links.active { display: flex; }
+            .auth-group { width: 100%; flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="container nav-container">
+        <div class="logo"><a href="index.html">WorkWave<span>.</span></a></div>
+        <nav class="nav-links" id="nav-list">
+            <a href="index.html">Home</a>
+            <a href="browse.html">Find Work</a>
+            <a href="how.html">How it Works</a>
+            <a href="wallet.html">Wallet</a>
+            <a href="profile.html">My Profile</a>
+            <div class="auth-group">
+                <a href="login.html">Log In</a>
+                <a href="signup.html" class="join-btn">Join Now</a>
+            </div>
+        </nav>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="wallet-grid">
+        <aside>
+            <div class="balance-card">
+                <p class="balance-label">Available Balance</p>
+                <h1 class="amount" id="balanceDisplay">$1,250.00</h1>
+                <div class="wallet-actions">
+                    <button class="action-btn btn-deposit" onclick="handleDeposit()">Deposit</button>
+                    <button class="action-btn btn-withdraw" onclick="handleWithdraw()">Withdraw</button>
+                </div>
+            </div>
+            <div class="escrow-info">
+                <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 5px;">Held in Escrow</p>
+                <h2 style="color: #f59e0b; font-weight: 800;" id="escrowDisplay">$800.00</h2>
+                <p style="font-size: 12px; color: var(--text-gray); margin-top: 10px;">
+                    <i class="fas fa-shield-check"></i> Funds are secured until you approve milestones.
+                </p>
+            </div>
+        </aside>
+
+        <section class="milestone-section">
+            <h2 style="margin-bottom: 25px; color: var(--primary-dark);">Security & Milestone Tracker</h2>
+            
+            <div class="milestone-card" id="m1">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h3 style="font-size: 18px; margin-bottom: 5px;">Landing Page Development</h3>
+                        <p style="color: var(--text-gray); font-size: 14px;">Project: TechStack Branding</p>
+                    </div>
+                    <span class="status-badge status-escrow" id="s1">SECURED IN ESCROW</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 800; font-size: 20px;">$400.00</span>
+                    <button class="release-btn" onclick="releaseFunds('1', 400)">Release Payment</button>
+                </div>
+            </div>
+
+            <div class="milestone-card" id="m2">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h3 style="font-size: 18px; margin-bottom: 5px;">Database Architecture</h3>
+                        <p style="color: var(--text-gray); font-size: 14px;">Project: Custom CRM Dashboard</p>
+                    </div>
+                    <span class="status-badge status-escrow" id="s2">SECURED IN ESCROW</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 800; font-size: 20px;">$400.00</span>
+                    <button class="release-btn" disabled>Awaiting Work</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script>
+    // --- Navigation Logic ---
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    mobileMenu.addEventListener('click', () => navList.classList.toggle('active'));
+
+    const currentLocation = window.location.pathname.split("/").pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        if (link.getAttribute('href') === currentLocation) {
+            link.classList.add('active');
+        }
+    });
+
+    // --- Wallet State Management ---
+    let currentBalance = 1250.00;
+    let currentEscrow = 800.00;
+
+    // Helper to format currency
+    function formatCurrency(num) {
+        return '$' + num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    // Update the UI text
+    function updateUI() {
+        document.getElementById('balanceDisplay').innerText = formatCurrency(currentBalance);
+        document.getElementById('escrowDisplay').innerText = formatCurrency(currentEscrow);
+    }
+
+    // --- Wallet Functions ---
+
+    function handleDeposit() {
+        const input = prompt("Enter amount to deposit into your secure wallet:");
+        const amount = parseFloat(input);
+        
+        if (!isNaN(amount) && amount > 0) {
+            currentBalance += amount;
+            updateUI();
+            alert(`${formatCurrency(amount)} successfully added to your account.`);
+        } else if (input !== null) {
+            alert("Please enter a valid positive number.");
+        }
+    }
+
+    function handleWithdraw() {
+        const input = prompt("Enter amount to withdraw:");
+        const amount = parseFloat(input);
+
+        if (!isNaN(amount) && amount > 0) {
+            if (amount <= currentBalance) {
+                currentBalance -= amount;
+                updateUI();
+                alert(`${formatCurrency(amount)} withdrawal successful.`);
+            } else {
+                alert("Insufficient funds in available balance.");
+            }
+        } else if (input !== null) {
+            alert("Please enter a valid positive number.");
+        }
+    }
+
+    function releaseFunds(id, amount) {
+        if(confirm(`Confirm milestone completion? ${formatCurrency(amount)} will be released immediately.`)) {
+            const status = document.getElementById(`s${id}`);
+            const btn = document.querySelector(`#m${id} .release-btn`);
+            
+            // Update Milestone UI
+            status.innerText = "RELEASED TO FREELANCER";
+            status.className = "status-badge status-released";
+            btn.disabled = true;
+            btn.innerText = "Payment Released";
+            
+            // Deduct from Escrow (Logic: released funds come out of the escrow pool)
+            currentEscrow -= amount;
+            updateUI();
+        }
+    }
+</script>
+
+</body>
+</html>

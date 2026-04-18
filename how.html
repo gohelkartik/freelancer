@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkWave Freelance Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #064e3b;
+            --accent-green: #10b981;
+            --text-white: #ffffff;
+            --text-gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --bg-light: #f9fafb;
+            --transition: all 0.3s ease;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #1f2937;
+            background-color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span { color: var(--accent-green); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-green); }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-green);
+        }
+
+        .auth-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .join-btn {
+            border: 2px solid var(--accent-green);
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: var(--accent-green) !important;
+            font-weight: 600 !important;
+        }
+
+        .join-btn:hover {
+            background: var(--accent-green);
+            color: white !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+
+        .how-hero {
+            background-color: var(--primary-dark);
+            padding: 100px 0 80px;
+            color: white;
+            text-align: center;
+        }
+
+        .how-hero h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .how-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .toggle-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: -30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .process-toggle {
+            background: white;
+            padding: 8px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .toggle-btn {
+            padding: 12px 30px;
+            border-radius: 40px;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-gray);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        .step-section {
+            padding: 80px 0;
+            background: white;
+            transition: opacity 0.3s ease;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 100px;
+        }
+
+        .step-row:nth-child(even) { flex-direction: row-reverse; }
+
+        .step-image { flex: 1; }
+        .step-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            display: block;
+        }
+
+        .step-content { flex: 1; }
+        .step-badge {
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--light-gray);
+            line-height: 1;
+            margin-bottom: -15px;
+        }
+
+        .step-content h2 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .step-content p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 25px;
+        }
+
+        .feature-list { list-style: none; }
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .feature-list i { color: var(--accent-green); font-size: 1.1rem; }
+
+        .faq-section { background: var(--bg-light); padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .faq-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .faq-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .faq-card h4 { margin-bottom: 15px; font-size: 1.25rem; color: var(--primary-dark); }
+
+        .cta-banner {
+            background: linear-gradient(45deg, #064e3b, #10b981);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .cta-banner h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .main-btn {
+            background: white;
+            color: var(--primary-dark);
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+
+        .main-btn:hover { background: var(--bg-light); transform: scale(1.05); }
+
+        footer { padding: 60px 0 30px; background: white; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { margin-bottom: 20px; color: var(--primary-dark); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { text-decoration: none; color: var(--text-gray); transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--accent-green); }
+
+        @media (max-width: 992px) {
+            .step-row, .step-row:nth-child(even) { flex-direction: column; text-align: center; }
+            .feature-list li { justify-content: center; }
+            .faq-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                gap: 20px;
+                align-items: flex-start;
+            }
+            .nav-links.active { display: flex; }
+            .auth-group { width: 100%; flex-direction: column; align-items: flex-start; }
+            .join-btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="container nav-container">
+        <div class="logo"><a href="index.html">WorkWave<span>.</span></a></div>
+        <nav class="nav-links" id="nav-list">
+            <a href="index.html">Home</a>
+            <a href="browse.html">Find Work</a>
+            <a href="how.html" class="active">How it Works</a>
+            <a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a>
+            <a href="profile.html">My Profile</a>
+            <div class="auth-group">
+                <a href="login.html">log IN</a>
+                <a href="signup.html" class="join-btn">Join Now</a>
+            </div>
+        </nav>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+    </div>
+</header>
+
+<section class="how-hero">
+    <div class="container">
+        <h1>Smart. Secure. Professional.</h1>
+        <p>Experience a platform built with AI matching, secure milestone payments, and professional monitoring to ensure quality work.</p>
+    </div>
+</section>
+
+<div class="toggle-wrapper">
+    <div class="process-toggle">
+        <button class="toggle-btn active" onclick="switchMode('buying')">For Businesses</button>
+        <button class="toggle-btn" onclick="switchMode('selling')">For Freelancers</button>
+    </div>
+</div>
+
+<main class="step-section" id="dynamic-content">
+    <div class="container">
+        <div class="step-row">
+            <div class="step-image">
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80" alt="Post">
+            </div>
+            <div class="step-content">
+                <div class="step-badge">01</div>
+                <h2>Post & Match</h2>
+                <p>Submit your project requirements. Our <strong>AI-based match finder</strong> automatically recommends the top-rated freelancers suited to your specific needs.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-robot"></i> AI-powered recommendations</li>
+                    <li><i class="fas fa-list-check"></i> Clear requirement posting</li>
+                    <li><i class="fas fa-bolt"></i> Instant notifications</li>
+                </ul>
+            </div>
+        </div>
+        <div class="step-row">
+            <div class="step-image">
+                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80" alt="Hire">
+            </div>
+            <div class="step-content">
+                <div class="step-badge">02</div>
+                <h2>Compare & Communicate</h2>
+                <p>Review transparent bids side-by-side. Our <strong>Language Monitoring System</strong> ensures all communications stay professional and abusive-free.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-shield-halved"></i> Automated language monitoring</li>
+                    <li><i class="fas fa-comments"></i> Real-time project chat</li>
+                    <li><i class="fas fa-chart-line"></i> Transparent bidding comparison</li>
+                </ul>
+            </div>
+        </div>
+        <div class="step-row">
+            <div class="step-image">
+                <img src="https://api.electronicpay.in/assets/admin/uploads/slider/NZP040v5XTEoovdIx5wVgNc5HOeurHi5BWCzb3C0.jpg" alt="Pay">
+            </div>
+            <div class="step-content">
+                <div class="step-badge">03</div>
+                <h2>Pay with Confidence</h2>
+                <p>Utilize our <strong>Secure Wallet & Milestone system</strong>. Funds are held safely in escrow and only released once you approve the work.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-wallet"></i> Secure Wallet protection</li>
+                    <li><i class="fas fa-flag-checkered"></i> Milestone-based payments</li>
+                    <li><i class="fas fa-user-shield"></i> Guaranteed fair pay</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 style="font-size: 2.5rem; color: var(--primary-dark);">Platform Safeguards</h2>
+        </div>
+        <div class="faq-grid">
+            <div class="faq-card">
+                <h4>What is the AI Match Finder?</h4>
+                <p>It uses data-driven algorithms to rank freelancers based on skills, ratings, and previous success on similar project types.</p>
+            </div>
+            <div class="faq-card">
+                <h4>How does the Secure Wallet work?</h4>
+                <p>Clients deposit funds upfront which are held by WorkWave. This protects freelancers from non-payment and clients from incomplete work.</p>
+            </div>
+            <div class="faq-card">
+                <h4>Is my communication private?</h4>
+                <p>Yes, but our automated system monitors for abusive language or unprofessional conduct to maintain a high-quality environment.</p>
+            </div>
+            <div class="faq-card">
+                <h4>What are Milestone Payments?</h4>
+                <p>Large projects are broken into smaller tasks. Payments are released step-by-step as each phase of the project is approved.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-banner">
+    <div class="container">
+        <h2>Ready to experience the future of work?</h2>
+        <p>Join over 500,000 users worldwide today.</p>
+        <a href="signup.html" class="main-btn">Join WorkWave Now</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;"><a href="index.html">WorkWave<span>.</span></a></div>
+                <p>Connecting businesses with the world's best freelancers.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#">3D Visualization</a></li>
+                    <li><a href="#">Multimedia Design</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Safety & Monitoring</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom" style="display: flex; justify-content: space-between; padding-top: 20px; border-top: 1px solid var(--border);">
+            <p>&copy; 2026 WorkWave Project</p>
+            <div class="socials" style="display: flex; gap: 15px;">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-linkedin"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    mobileMenu.addEventListener('click', () => {
+        navList.classList.toggle('active');
+    });
+
+    const buyingContent = `
+        <div class="container">
+            <div class="step-row">
+                <div class="step-image"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80"></div>
+                <div class="step-content">
+                    <div class="step-badge">01</div>
+                    <h2>Post & Match</h2>
+                    <p>Submit your project requirements. Our <strong>AI-based match finder</strong> automatically recommends the top-rated freelancers suited to your specific needs.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-robot"></i> AI-powered recommendations</li>
+                        <li><i class="fas fa-list-check"></i> Clear requirement posting</li>
+                        <li><i class="fas fa-bolt"></i> Instant notifications</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-image"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80"></div>
+                <div class="step-content">
+                    <div class="step-badge">02</div>
+                    <h2>Compare & Communicate</h2>
+                    <p>Review transparent bids side-by-side. Our <strong>Language Monitoring System</strong> ensures all communications stay professional and abusive-free.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-shield-halved"></i> Automated language monitoring</li>
+                        <li><i class="fas fa-comments"></i> Real-time project chat</li>
+                        <li><i class="fas fa-chart-line"></i> Transparent bidding comparison</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-image"><img src="https://images.unsplash.com/photo-1454165833767-027ffea9e4ae?auto=format&fit=crop&w=800&q=80"></div>
+                <div class="step-content">
+                    <div class="step-badge">03</div>
+                    <h2>Pay with Confidence</h2>
+                    <p>Utilize our <strong>Secure Wallet & Milestone system</strong>. Funds are held safely in escrow and only released once you approve the work.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-wallet"></i> Secure Wallet protection</li>
+                        <li><i class="fas fa-flag-checkered"></i> Milestone-based payments</li>
+                        <li><i class="fas fa-user-shield"></i> Guaranteed fair pay</li>
+                    </ul>
+                </div>
+            </div>
+        </div>`;
+
+    const sellingContent = `
+        <div class="container">
+            <div class="step-row">
+                <div class="step-image"><img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"></div>
+                <div class="step-content">
+                    <div class="step-badge">01</div>
+                    <h2>Dashboard & Discovery</h2>
+                    <p>Build a <strong>personalized profile dashboard</strong>. Highlight your skills and let our AI match you with jobs that fit your expertise and ratings.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-id-card"></i> Personalized skill dashboard</li>
+                        <li><i class="fas fa-magnifying-glass"></i> AI job recommendations</li>
+                        <li><i class="fas fa-briefcase"></i> Portfolio showcase</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-image"><img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=800&q=80"></div>
+                <div class="step-content">
+                    <div class="step-badge">02</div>
+                    <h2>Bidding & Professionalism</h2>
+                    <p>Submit transparent proposals with cost and timeline. Use <strong>real-time chat</strong> with built-in monitoring to ensure a professional work environment.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-file-contract"></i> Detailed bidding system</li>
+                        <li><i class="fas fa-check-double"></i> Verified work history</li>
+                        <li><i class="fas fa-shield-check"></i> Safe workspace monitoring</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="step-row">
+                <div class="step-image"><img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=800&q=80"></div>
+                <div class="step-content">
+                    <div class="step-badge">03</div>
+                    <h2>Secure Earnings</h2>
+                    <p>Manage your tasks through the dashboard. Get paid fairly through the <strong>Secure Wallet</strong> as you hit project milestones.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-money-bill-transfer"></i> Milestone-based earnings</li>
+                        <li><i class="fas fa-user-check"></i> Fair payment guarantee</li>
+                        <li><i class="fas fa-wallet"></i> Integrated Wallet dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>`;
+
+    function switchMode(mode) {
+        const btns = document.querySelectorAll('.toggle-btn');
+        const contentArea = document.getElementById('dynamic-content');
+        const eventTarget = event.currentTarget;
+        btns.forEach(b => b.classList.remove('active'));
+        eventTarget.classList.add('active');
+        contentArea.style.opacity = '0';
+        setTimeout(() => {
+            contentArea.innerHTML = mode === 'selling' ? sellingContent : buyingContent;
+            contentArea.style.opacity = '1';
+        }, 200);
+    }
+</script>
+
+</body>
+</html>

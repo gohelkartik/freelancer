@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Profile | WorkWave</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #064e3b;
+            --accent-green: #10b981;
+            --text-white: #ffffff;
+            --text-gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --bg-light: #f9fafb;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #1f2937;
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-green);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-green);
+        }
+
+        .auth-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .join-btn {
+            border: 2px solid var(--accent-green);
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: var(--accent-green) !important;
+            font-weight: 600 !important;
+        }
+
+        .join-btn:hover {
+            background: var(--accent-green);
+            color: white !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .profile-sidebar {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            text-align: center;
+        }
+
+        .profile-img-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-green);
+        }
+
+        .edit-img-btn {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: var(--light-gray);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag i {
+            cursor: pointer;
+            color: #ef4444;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .portfolio-item:hover { transform: translateY(-5px); }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .portfolio-info { padding: 15px; }
+
+        .action-btn {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover { opacity: 0.9; }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .experience-item {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-green);
+            position: relative;
+        }
+
+        .delete-entry {
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .profile-grid { grid-template-columns: 1fr; }
+            .profile-sidebar { position: static; width: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                gap: 20px;
+                align-items: flex-start;
+            }
+            .nav-links.active { display: flex; }
+            .auth-group { width: 100%; flex-direction: column; align-items: flex-start; }
+            .join-btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <a href="index.html">WorkWave<span>.</span></a>
+        </div>
+        <nav class="nav-links" id="nav-list">
+            <a href="index.html">Home</a>
+            <a href="browse.html">Find Work</a>
+            <a href="how.html">How it Works</a>
+            <a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a>
+            <a href="profile.html" class="active">My Profile</a>
+            <div class="auth-group">
+                <a href="login.html">log IN</a>
+                <a href="signup.html" class="join-btn">Join Now</a>
+            </div>
+        </nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="profile-grid">
+        <aside class="profile-sidebar">
+            <div class="profile-img-container">
+                <img src="https://i.pravatar.cc/150?u=freelancer1" id="profilePic" alt="Profile">
+                <button class="edit-img-btn" onclick="updateImage()"><i class="fas fa-camera"></i></button>
+            </div>
+            <h2 id="userName" onclick="editSingleField('userName', 'Name')">Alex Rivera</h2>
+            <p id="userTitle" style="color: var(--accent-green); font-weight: 600;" onclick="editSingleField('userTitle', 'Title')">Full Stack Developer</p>
+            
+            <div style="margin: 20px 0; text-align: left; font-size: 14px;">
+                <p><i class="fas fa-map-marker-alt"></i> <span id="userLoc" onclick="editSingleField('userLoc', 'Location')">San Francisco, CA</span></p>
+                <p style="margin: 5px 0;"><i class="fas fa-star" style="color: #f59e0b;"></i> 5.0 (124 reviews)</p>
+                <p><i class="fas fa-clock"></i> Member since 2024</p>
+            </div>
+            <button class="action-btn" style="width: 100%; background: var(--primary-dark);" onclick="resetProfile()">Reset Profile Data</button>
+        </aside>
+
+        <section class="main-content">
+            <div class="section-card">
+                <div class="section-header">
+                    <h3>Professional Bio</h3>
+                    <i class="fas fa-pen" style="cursor:pointer; color: var(--accent-green);" onclick="editBio()"></i>
+                </div>
+                <p id="bioText">Passionate developer with over 5 years of experience building scalable web applications. Specialist in React, Node.js, and cloud architecture.</p>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <h3>Skills & Expertise</h3>
+                    <button class="action-btn btn-outline" onclick="addSkill()">+ Add Skill</button>
+                </div>
+                <div class="tag-container" id="skillContainer"></div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <h3>Work Experience</h3>
+                    <button class="action-btn btn-outline" onclick="addExperience()">+ Add Experience</button>
+                </div>
+                <div id="experienceContainer"></div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <h3>Portfolio Samples</h3>
+                    <button class="action-btn btn-outline" onclick="addPortfolio()">+ Add Project</button>
+                </div>
+                <div class="portfolio-grid" id="portfolioGrid"></div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script>
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    mobileMenu.addEventListener('click', () => { navList.classList.toggle('active'); });
+
+    const storageKey = 'workwave_profile_data';
+
+    let profileData = JSON.parse(localStorage.getItem(storageKey)) || {
+        name: "Alex Rivera",
+        title: "Full Stack Developer",
+        location: "San Francisco, CA",
+        image: "https://i.pravatar.cc/150?u=freelancer1",
+        bio: "Passionate developer with over 5 years of experience building scalable web applications. Specialist in React, Node.js, and cloud architecture.",
+        skills: ["JavaScript", "TypeScript", "React", "Node.js"],
+        experience: [
+            { id: 1, role: "Senior Developer @ TechFlow", date: "2022 - Present", desc: "Leading the core platform team." }
+        ],
+        portfolio: [
+            { id: 1, title: "E-commerce Dashboard", desc: "Full stack solution for retail.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=60" }
+        ]
+    };
+
+    function saveData() {
+        localStorage.setItem(storageKey, JSON.stringify(profileData));
+        renderProfile();
+    }
+
+    function editSingleField(id, label) {
+        const val = prompt(`Enter new ${label}:`, profileData[label.toLowerCase()] || document.getElementById(id).innerText);
+        if (val) {
+            if (id === 'userName') profileData.name = val;
+            if (id === 'userTitle') profileData.title = val;
+            if (id === 'userLoc') profileData.location = val;
+            saveData();
+        }
+    }
+
+    function updateImage() {
+        const url = prompt("Enter Image URL:");
+        if (url) { profileData.image = url; saveData(); }
+    }
+
+    function editBio() {
+        const newBio = prompt("Edit your bio:", profileData.bio);
+        if (newBio) { profileData.bio = newBio; saveData(); }
+    }
+
+    function addSkill() {
+        const skill = prompt("Enter skill name:");
+        if (skill) { profileData.skills.push(skill); saveData(); }
+    }
+
+    function removeSkill(index) {
+        profileData.skills.splice(index, 1);
+        saveData();
+    }
+
+    function addExperience() {
+        const role = prompt("Job Title & Company:");
+        const date = prompt("Duration (e.g. 2020 - 2022):");
+        const desc = prompt("Short description:");
+        if (role && date) {
+            profileData.experience.unshift({ id: Date.now(), role, date, desc });
+            saveData();
+        }
+    }
+
+    function removeExp(id) {
+        profileData.experience = profileData.experience.filter(e => e.id !== id);
+        saveData();
+    }
+
+    function addPortfolio() {
+        const title = prompt("Project Title:");
+        const desc = prompt("Project Description:");
+        if (title) {
+            profileData.portfolio.push({ 
+                id: Date.now(), 
+                title, 
+                desc, 
+                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=60" 
+            });
+            saveData();
+        }
+    }
+
+    function removePort(id) {
+        profileData.portfolio = profileData.portfolio.filter(p => p.id !== id);
+        saveData();
+    }
+
+    function resetProfile() {
+        if(confirm("Clear all changes?")) {
+            localStorage.removeItem(storageKey);
+            location.reload();
+        }
+    }
+
+    function renderProfile() {
+        document.getElementById('userName').innerText = profileData.name;
+        document.getElementById('userTitle').innerText = profileData.title;
+        document.getElementById('userLoc').innerText = profileData.location;
+        document.getElementById('profilePic').src = profileData.image;
+        document.getElementById('bioText').innerText = profileData.bio;
+
+        const skillCont = document.getElementById('skillContainer');
+        skillCont.innerHTML = profileData.skills.map((s, i) => `
+            <span class="tag">${s} <i class="fas fa-times" onclick="removeSkill(${i})"></i></span>
+        `).join('');
+
+        const expCont = document.getElementById('experienceContainer');
+        expCont.innerHTML = profileData.experience.map(e => `
+            <div class="experience-item">
+                <i class="fas fa-trash delete-entry" onclick="removeExp(${e.id})"></i>
+                <h4 style="color: var(--primary-dark);">${e.role}</h4>
+                <p style="font-size: 14px; color: var(--text-gray);">${e.date}</p>
+                <p>${e.desc}</p>
+            </div>
+        `).join('');
+
+        const portCont = document.getElementById('portfolioGrid');
+        portCont.innerHTML = profileData.portfolio.map(p => `
+            <div class="portfolio-item">
+                <img src="${p.img}">
+                <div class="portfolio-info">
+                    <div style="display:flex; justify-content:space-between;">
+                        <h4>${p.title}</h4>
+                        <i class="fas fa-trash" style="color:#ef4444; cursor:pointer;" onclick="removePort(${p.id})"></i>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-gray);">${p.desc}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderProfile();
+</script>
+
+</body>
+</html>

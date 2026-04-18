@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkWave Freelance Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #064e3b;
+            --accent-green: #10b981;
+            --text-white: #ffffff;
+            --text-gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --bg-light: #f9fafb;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #1f2937;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent-green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-green);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-green);
+        }
+
+        .auth-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .join-btn {
+            border: 2px solid var(--accent-green);
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: var(--accent-green) !important;
+            font-weight: 600 !important;
+        }
+
+        .join-btn:hover {
+            background: var(--accent-green);
+            color: white !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+
+        .hero-section {
+            background-color: var(--primary-dark);
+            padding: 80px 0;
+            color: white;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            line-height: 1.2;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .hero-text h1 span {
+            font-style: italic;
+            color: var(--accent-green);
+            font-weight: 400;
+        }
+
+        .search-bar {
+            background: white;
+            padding: 6px;
+            border-radius: 12px;
+            display: flex;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .input-group i {
+            color: #9ca3af;
+            margin-right: 10px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .ai-status {
+            font-size: 12px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent-green);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .ai-match-section {
+            padding: 80px 0;
+            background: #ffffff;
+        }
+
+        .ai-card {
+            background: var(--bg-light);
+            border: 2px solid var(--accent-green);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .ai-icon {
+            font-size: 50px;
+            color: var(--accent-green);
+            background: white;
+            padding: 20px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .services-section, .marketplace-preview, .why-us, .cta-banner {
+            padding: 60px 0;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            height: 300px;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+        }
+
+        .category-card * { position: relative; z-index: 2; }
+
+        .marketplace-preview { background: var(--bg-light); }
+
+        .gig-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .gig-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .gig-card:hover { transform: translateY(-5px); }
+
+        .gig-img { height: 200px; width: 100%; object-fit: cover; }
+        .gig-info { padding: 20px; }
+        .seller-info { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .seller-info img { width: 30px; height: 30px; border-radius: 50%; }
+        .gig-footer { padding: 15px 20px; border-top: 1px solid #eee; display: flex; justify-content: space-between; }
+
+        .why-us { background: #052e16; color: white; }
+        .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
+        .feature-box h3 { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .feature-box i { color: var(--accent-green); }
+
+        .cta-banner { background: linear-gradient(45deg, #064e3b, #10b981); color: white; text-align: center; }
+        .main-btn { background: white; color: var(--primary-dark); padding: 15px 35px; border-radius: 8px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 30px; }
+
+        footer { padding: 60px 0 30px; background: white; border-top: 1px solid #eee; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { margin-bottom: 20px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { text-decoration: none; color: var(--text-gray); }
+
+        @media (max-width: 992px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-image, .ai-icon { display: none; }
+            .search-bar { max-width: 600px; margin-left: auto; margin-right: auto; }
+            .ai-card { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                gap: 20px;
+                align-items: flex-start;
+            }
+            .nav-links.active { display: flex; }
+            .auth-group { width: 100%; flex-direction: column; align-items: flex-start; }
+            .join-btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <a href="index.html">WorkWave<span>.</span></a>
+        </div>
+        <nav class="nav-links" id="nav-list">
+            <a href="index.html">Home</a>
+            <a href="browse.html">Find Work</a>
+            <a href="how.html">How it Works</a>
+            <a href="wallet.html"><i class="fas fa-wallet"></i> My Wallet</a>
+            <a href="profile.html">My Profile</a>
+            <div class="auth-group">
+                <a href="login.html">log IN</a>
+                <a href="signup.html" class="join-btn">Join Now</a>
+            </div>
+        </nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="hero-section">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h1>Find the perfect <span>freelance</span> services for your business</h1>
+                <form class="search-bar" id="searchForm">
+                    <div class="input-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Try 'web design'..." required>
+                    </div>
+                    <button type="submit">Search</button>
+                </form>
+                <div class="ai-status">
+                    <i class="fas fa-robot"></i> 
+                    <span>AI-Based Match Finder Active</span>
+                    <span style="margin-left: 15px; color: #f87171;"><i class="fas fa-shield-alt"></i> Language Monitor Enabled</span>
+                </div>
+                <div class="popular-tags">
+                    <span>Popular:</span>
+                    <a href="#" class="tag" style="text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.4); padding: 4px 15px; border-radius: 20px; font-size: 13px; margin: 0 5px;">Design</a>
+                    <a href="#" class="tag" style="text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.4); padding: 4px 15px; border-radius: 20px; font-size: 13px; margin: 0 5px;">WordPress</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80" alt="Freelancers">
+            </div>
+        </div>
+    </section>
+
+    <section class="ai-match-section">
+        <div class="container">
+            <div class="ai-card">
+                <div class="ai-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="ai-info">
+                    <h2 style="color: var(--primary-dark); margin-bottom: 10px;">Smart AI Match Finder</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 20px;">Our algorithm automatically recommends the best freelancers to clients based on skills, ratings, and project history. No more manual sorting—get the best fit instantly.</p>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <span style="font-weight: 600; color: var(--accent-green);"><i class="fas fa-bolt"></i> 98% Match Accuracy</span>
+                        <span style="font-weight: 600; color: var(--accent-green);"><i class="fas fa-user-check"></i> Skill-Verified Results</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <div class="container">
+            <h2 style="font-size: clamp(28px, 4vw, 42px); margin-bottom: 20px;">Safe & Intelligent Environment</h2>
+            <div class="feature-list">
+                <div class="feature-box">
+                    <h3><i class="fas fa-shield-virus"></i> Automated Language Monitor</h3>
+                    <p>Our system automatically detects and blocks abusive or unprofessional communication to ensure a respectful workplace.</p>
+                </div>
+                <div class="feature-box">
+                    <h3><i class="fas fa-wallet"></i> Secure Wallet System</h3>
+                    <p>Funds are held safely in escrow and only released upon your approval of the milestone.</p>
+                </div>
+                <div class="feature-box">
+                    <h3><i class="fas fa-project-diagram"></i> Real-time Tracking</h3>
+                    <p>Track progress, share files, and communicate instantly with our integrated project dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="font-size: clamp(24px, 4vw, 36px); margin-bottom: 30px;">Popular professional services</h2>
+            </div>
+            <div class="service-grid">
+                <a href="#" class="category-card" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=60')">
+                    <span>Build your brand</span>
+                    <h3>Logo Design</h3>
+                </a>
+                <a href="#" class="category-card" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=500&q=60')">
+                    <span>Customize your site</span>
+                    <h3>WordPress</h3>
+                </a>
+                <a href="#" class="category-card" style="background-image: url('https://www.techsmith.com/wp-content/uploads/2023/08/voice-over.png')">
+                    <span>Share your message</span>
+                    <h3>Voice Over</h3>
+                </a>
+                <a href="#" class="category-card" style="background-image: url('https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=500&q=60')">
+                    <span>Engage your audience</span>
+                    <h3>Video Explainer</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="marketplace-preview">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="font-size: clamp(24px, 4vw, 36px); margin-bottom: 30px;">AI Recommended Gigs</h2>
+            </div>
+            <div class="gig-grid" id="gigGrid">
+                <div class="gig-card">
+                    <img src="https://legiit-service.s3.amazonaws.com/19c2d18cdf9fd38a39dcbb73e832f0d0/5660fa13f0748712f849d298e4517c0d.jpg" class="gig-img" alt="Gig">
+                    <div class="gig-info">
+                        <div class="seller-info">
+                            <img src="https://i.pravatar.cc/150?u=a1" alt="Seller">
+                            <strong>Alex Rivera</strong>
+                        </div>
+                        <p>I will design a modern minimalist logo for your startup</p>
+                    </div>
+                    <div class="gig-footer">
+                        <span style="color: #ffb33e;"><i class="fas fa-star"></i> 5.0</span>
+                        <div class="price">FROM $25</div>
+                    </div>
+                </div>
+                <div class="gig-card">
+                    <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=400&q=60" class="gig-img" alt="Gig">
+                    <div class="gig-info">
+                        <div class="seller-info">
+                            <img src="https://i.pravatar.cc/150?u=a2" alt="Seller">
+                            <strong>Sarah J.</strong>
+                        </div>
+                        <p>I will develop a fully responsive WordPress website</p>
+                    </div>
+                    <div class="gig-footer">
+                        <span style="color: #ffb33e;"><i class="fas fa-star"></i> 4.9</span>
+                        <div class="price">FROM $150</div>
+                    </div>
+                </div>
+                <div class="gig-card">
+                    <img src="https://www.brainvire.com/blog/wp-content/uploads/2024/07/Chatbots-and-Their-Impact-on-Customer-Support.jpg" class="gig-img" alt="Gig">
+                    <div class="gig-info">
+                        <div class="seller-info">
+                            <img src="https://i.pravatar.cc/150?u=a3" alt="Seller">
+                            <strong>Mark Tech</strong>
+                        </div>
+                        <p>I will set up your AI chatbot for customer service</p>
+                    </div>
+                    <div class="gig-footer">
+                        <span style="color: #ffb33e;"><i class="fas fa-star"></i> 5.0</span>
+                        <div class="price">FROM $50</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="container">
+            <h2>Experience the future of freelance work.</h2>
+            <a href="signup.html" class="main-btn">Get Started Now</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;"><a href="#" style="text-decoration: none; color: #1a1a1a; font-weight: 800; font-size: 28px;">WorkWave<span style="color: var(--accent-green);">.</span></a></div>
+                <p>Connecting businesses with the world's best freelancers using AI.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#">Design</a></li>
+                    <li><a href="#">Marketing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Safety Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom" style="display: flex; justify-content: space-between; padding-top: 20px; border-top: 1px solid #eee;">
+            <p>&copy; 2026 WorkWave Project</p>
+            <div class="socials" style="display: flex; gap: 15px;">
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-linkedin"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const mobileMenu = document.getElementById('mobile-menu');
+const navList = document.getElementById('nav-list');
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+
+mobileMenu.addEventListener('click', () => { navList.classList.toggle('active'); });
+
+const freelancerDatabase = [
+    { name: "Alex Rivera", skills: ["design", "ui", "ux"], rating: 5.0 },
+    { name: "Sarah J.", skills: ["wordpress", "development"], rating: 4.9 },
+    { name: "Mark Tech", skills: ["ai", "chatbot", "python"], rating: 5.0 }
+];
+
+function aiMatchFinder(query) {
+    const q = query.toLowerCase();
+    return freelancerDatabase.filter(f => 
+        f.skills.some(s => q.includes(s)) || f.rating >= 4.8
+    ).sort((a, b) => b.rating - a.rating);
+}
+
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = searchInput.value;
+    const button = searchForm.querySelector('button');
+    const matches = aiMatchFinder(query);
+    
+    button.innerHTML = '<i class="fas fa-robot fa-spin"></i> AI Matching...';
+    
+    setTimeout(() => {
+        window.location.href = `browse.html?query=${encodeURIComponent(query)}&ai_score=${matches.length}`;
+    }, 1200);
+});
+</script>
+
+</body>
+</html>
